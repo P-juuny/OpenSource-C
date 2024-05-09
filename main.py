@@ -36,7 +36,6 @@ class SnakeAndApple:
         self.canvas.pack()
         # Input from user in form of clicks and keyboard
         self.window.bind("<Key>", self.key_input)
-        self.window.bind("<Button-1>", self.mouse_input)
         self.play_again()
         self.begin = False
 
@@ -126,7 +125,7 @@ class SnakeAndApple:
             fill=BLUE_COLOR,
             text=time_spent,
         )
-        score_text = "Click to play again \n"
+        score_text = "Push the keypad to play again \n"
         self.canvas.create_text(
             size_of_board / 2,
             15 * size_of_board / 16,
@@ -245,8 +244,6 @@ class SnakeAndApple:
         else:
             return False
 
-    def mouse_input(self, event):
-        self.play_again()
 
     def key_input(self, event):
         if not self.crashed:
@@ -256,6 +253,8 @@ class SnakeAndApple:
                 # print(key_pressed)
                 self.begin = True
                 self.last_key = key_pressed
+        else:
+            self.play_again()
 
 
 game_instance = SnakeAndApple()
