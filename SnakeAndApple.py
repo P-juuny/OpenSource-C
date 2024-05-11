@@ -102,7 +102,7 @@ class SnakeAndApple:
             size_of_board / 2,
             3 * size_of_board / 8,
             font="cmr 40 bold",
-            fill=Green_color,
+            fill=GREEN_COLOR,
             text=score_text,
             )
         score_text = str(score)
