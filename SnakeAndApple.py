@@ -19,6 +19,9 @@ GREEN_COLOR = "#7BC043"
 BLUE_COLOR_LIGHT = '#67B0CF'
 RED_COLOR_LIGHT = '#EE7E77'
 
+row_h = int(size_of_board / rows)
+col_w = int(size_of_board / cols)
+
 
 class SnakeAndApple:
     # ------------------------------------------------------------------
@@ -45,12 +48,12 @@ class SnakeAndApple:
 
         for i in range(rows):
             self.canvas.create_line(
-                i * size_of_board / rows, 0, i * size_of_board / rows, size_of_board,
+                i * row_h, 0, i * row_h, size_of_board,
                 )
 
         for i in range(cols):
             self.canvas.create_line(
-                0, i * size_of_board / cols, size_of_board, i * size_of_board / cols,
+                0, i * col_w, size_of_board, i * col_w,
                    )
 
     def initialize_snake(self):
@@ -133,8 +136,6 @@ class SnakeAndApple:
         # Place apple randomly anywhere except at the cells occupied by snake
         unoccupied_cels = set(self.board) - set(self.snake)
         self.apple_cell = random.choice(list(unoccupied_cels))
-        row_h = int(size_of_board / rows)
-        col_w = int(size_of_board / cols)
         x1 = self.apple_cell[0] * row_h
         y1 = self.apple_cell[1] * col_w
         x2 = x1 + row_h
@@ -150,8 +151,6 @@ class SnakeAndApple:
         if mode == "complete":
             for i, cell in enumerate(self.snake):
                 # print(cell)
-                row_h = int(size_of_board / rows)
-                col_w = int(size_of_board / cols)
                 x1 = cell[0] * row_h
                 y1 = cell[1] * col_w
                 x2 = x1 + row_h
@@ -164,8 +163,6 @@ class SnakeAndApple:
         else:
             # only update head
             cell = self.snake[-1]
-            row_h = int(size_of_board / rows)
-            col_w = int(size_of_board / cols)
             x1 = cell[0] * row_h
             y1 = cell[1] * col_w
             x2 = x1 + row_h
@@ -179,8 +176,6 @@ class SnakeAndApple:
                 self.snake.insert(0, self.old_apple_cell)
                 self.old_apple_cell = []
                 tail = self.snake[0]
-                row_h = int(size_of_board / rows)
-                col_w = int(size_of_board / cols)
                 x1 = tail[0] * row_h
                 y1 = tail[1] * col_w
                 x2 = x1 + row_h
