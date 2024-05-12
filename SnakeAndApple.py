@@ -249,5 +249,5 @@ class SnakeAndApple:
                 self.begin = True
                 self.last_key = key_pressed
         else:
-            if event.keysym == "r" or event.keysym == "R":  # 'R' 키나 'Enter' 키 입력 확인
+            if event.keysym == "r" or event.keysym == "R":
                 self.play_again()        
