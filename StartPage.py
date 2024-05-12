@@ -11,6 +11,8 @@ class StartPage:
         self.setBackground()
         self.setTitle()
         self.setStartButton()
+        self.window.bind("<Return>", lambda event: self.startGame())
+        self.window.bind("<space>", lambda event: self.startGame())
 
     def setBackground(self):
         self.window.geometry('600x600')
