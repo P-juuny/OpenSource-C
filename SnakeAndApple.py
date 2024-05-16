@@ -15,7 +15,7 @@ symbol_size = (size_of_board / 3 - size_of_board / 8) / 2
 symbol_thickness = 2
 RED_COLOR = "#EE4035"
 BLUE_COLOR = "#0492CF"
-Green_color = "#7BC043"
+GREEN_COLOR = "#7BC043"
 
 BLUE_COLOR_LIGHT = '#67B0CF'
 RED_COLOR_LIGHT = '#EE7E77'
@@ -103,7 +103,7 @@ class SnakeAndApple:
             size_of_board / 2,
             3 * size_of_board / 8,
             font="cmr 40 bold",
-            fill=Green_color,
+            fill=GREEN_COLOR,
             text=score_text,
             )
         score_text = str(score)
