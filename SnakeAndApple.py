@@ -31,7 +31,6 @@ class SnakeAndApple:
         self.canvas.pack()
         # Input from user in form of clicks and keyboard
         self.window.bind("<Key>", self.key_input)
-        self.window.bind("<Button-1>", self.mouse_input)
         self.play_again()
         self.begin = False
 
@@ -79,7 +78,7 @@ class SnakeAndApple:
     def mainloop(self):
         while True:
             self.window.update()
-            if self.begin:  # self.begin이 True일 때만 게임이 업데이트됨
+            if self.begin:  # self.beginì´ Trueì¼ ëë§ ê²ìì´ ìë°ì´í¸ë¨
                 if not self.crashed:
                     self.window.after(DELAY, self.update_snake(self.last_key))
                 else:
@@ -122,7 +121,7 @@ class SnakeAndApple:
             fill=BLUE_COLOR,
             text=time_spent,
             )
-        score_text = "Click to play again \n"
+        score_text = "Push R(r) key to play again \n"
         self.canvas.create_text(
             size_of_board / 2,
             15 * size_of_board / 16,
@@ -241,8 +240,6 @@ class SnakeAndApple:
         else:
             return False
 
-    def mouse_input(self, event):
-        self.play_again()
 
     def key_input(self, event):
         if not self.crashed:
@@ -252,5 +249,6 @@ class SnakeAndApple:
             elif self.check_if_key_valid(key_pressed):
                 self.begin = True 
                 self.last_key = key_pressed
-
-
+        else:
+            if event.keysym == "r" or event.keysym == "R":  # 'R' Å°³ª 'Enter' Å° ÀÔ·Â È®ÀÎ
+                self.play_again()        
