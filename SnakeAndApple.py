@@ -2,6 +2,7 @@ from tkinter import *
 import random
 import time
 import numpy as np
+from collections import deque
 from PIL import ImageTk,Image
 
 # Define useful parameters
@@ -31,7 +32,6 @@ class SnakeAndApple:
         self.canvas.pack()
         # Input from user in form of clicks and keyboard
         self.window.bind("<Key>", self.key_input)
-        self.window.bind("<Button-1>", self.mouse_input)
         self.play_again()
         self.begin = False
 
@@ -55,7 +55,7 @@ class SnakeAndApple:
                    )
 
     def initialize_snake(self):
-        self.snake = []
+        self.snake = deque()
         self.crashed = False
         self.snake_heading = "Right"
         self.last_key = self.snake_heading
@@ -64,7 +64,7 @@ class SnakeAndApple:
         self.forbidden_actions["Left"] = "Right"
         self.forbidden_actions["Up"] = "Down"
         self.forbidden_actions["Down"] = "Up"
-        self.snake_objects = []
+        self.snake_objects = deque()
         for i in range(snake_initial_length):
             self.snake.append((i, 0))
 
@@ -102,7 +102,7 @@ class SnakeAndApple:
             size_of_board / 2,
             3 * size_of_board / 8,
             font="cmr 40 bold",
-            fill=Green_color,
+            fill=GREEN_COLOR,
             text=score_text,
             )
         score_text = str(score)
@@ -121,7 +121,7 @@ class SnakeAndApple:
             fill=BLUE_COLOR,
             text=time_spent,
             )
-        score_text = "Click to play again \n"
+        score_text = "Push R(r) key to play again \n"
         self.canvas.create_text(
             size_of_board / 2,
             15 * size_of_board / 16,
@@ -146,8 +146,8 @@ class SnakeAndApple:
 
     def display_snake(self, mode=""):
         # Remove tail from display if it exists
-        if self.snake_objects != []:
-            self.canvas.delete(self.snake_objects.pop(0))
+        if self.snake_objects != deque():
+            self.canvas.delete(self.snake_objects.popleft())
         if mode == "complete":
             for i, cell in enumerate(self.snake):
                 # print(cell)
@@ -176,8 +176,9 @@ class SnakeAndApple:
                     x1, y1, x2, y2, fill=BLUE_COLOR, outline=RED_COLOR,
                 )
             )
+
             if self.snake[-1] == self.old_apple_cell:
-                self.snake.insert(0, self.old_apple_cell)
+                self.snake.appendleft(self.old_apple_cell)
                 self.old_apple_cell = []
                 tail = self.snake[0]
                 row_h = int(size_of_board / rows)
@@ -186,8 +187,7 @@ class SnakeAndApple:
                 y1 = tail[1] * col_w
                 x2 = x1 + row_h
                 y2 = y1 + col_w
-                self.snake_objects.insert(
-                    0,
+                self.snake_objects.appendleft(
                     self.canvas.create_rectangle(
                         x1, y1, x2, y2, fill=BLUE_COLOR, outline=RED_COLOR
                     ),
@@ -203,7 +203,7 @@ class SnakeAndApple:
         tail = self.snake[0]
         head = self.snake[-1]
         if tail != self.old_apple_cell:
-            self.snake.pop(0)
+            self.snake.popleft()
         if key == "Left":
             self.snake.append((head[0] - 1, head[1]))
         elif key == "Right":
@@ -240,8 +240,6 @@ class SnakeAndApple:
         else:
             return False
 
-    def mouse_input(self, event):
-        self.play_again()
 
     def key_input(self, event):
         if not self.crashed:
@@ -251,3 +249,6 @@ class SnakeAndApple:
                 # print(key_pressed)
                 self.begin = True
                 self.last_key = key_pressed
+        else:
+            if event.keysym == "r" or event.keysym == "R":  # 'R' Ű�� 'Enter' Ű �Է� Ȯ��
+                self.play_again()        
