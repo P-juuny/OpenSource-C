@@ -2,6 +2,7 @@ from tkinter import *
 import random
 import time
 import numpy as np
+from collections import deque
 from PIL import ImageTk,Image
 
 # Define useful parameters
@@ -57,7 +58,7 @@ class SnakeAndApple:
                    )
 
     def initialize_snake(self):
-        self.snake = []
+        self.snake = deque()
         self.crashed = False
         self.snake_heading = "Right"
         self.last_key = self.snake_heading
@@ -66,7 +67,7 @@ class SnakeAndApple:
         self.forbidden_actions["Left"] = "Right"
         self.forbidden_actions["Up"] = "Down"
         self.forbidden_actions["Down"] = "Up"
-        self.snake_objects = []
+        self.snake_objects = deque()
         for i in range(snake_initial_length):
             self.snake.append((i, 0))
 
@@ -146,8 +147,8 @@ class SnakeAndApple:
 
     def display_snake(self, mode=""):
         # Remove tail from display if it exists
-        if self.snake_objects != []:
-            self.canvas.delete(self.snake_objects.pop(0))
+        if self.snake_objects != deque():
+            self.canvas.delete(self.snake_objects.popleft())
         if mode == "complete":
             for i, cell in enumerate(self.snake):
                 # print(cell)
@@ -173,15 +174,14 @@ class SnakeAndApple:
                 )
             )
             if self.snake[0] == self.old_apple_cell:
-                self.snake.insert(0, self.old_apple_cell)
+                self.snake.appendleft(self.old_apple_cell)
                 self.old_apple_cell = []
                 tail = self.snake[0]
                 x1 = tail[0] * row_h
                 y1 = tail[1] * col_w
                 x2 = x1 + row_h
                 y2 = y1 + col_w
-                self.snake_objects.insert(
-                    0,
+                self.snake_objects.appendleft(
                     self.canvas.create_rectangle(
                         x1, y1, x2, y2, fill=BLUE_COLOR, outline=RED_COLOR
                     ),
@@ -197,7 +197,7 @@ class SnakeAndApple:
         tail = self.snake[0]
         head = self.snake[-1]
         if tail != self.old_apple_cell:
-            self.snake.pop(0)
+            self.snake.popleft()
         if key == "Left":
             self.snake.append((head[0] - 1, head[1]))
         elif key == "Right":
