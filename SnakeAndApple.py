@@ -24,11 +24,12 @@ class SnakeAndApple:
     # ------------------------------------------------------------------
     # Initialization Functions:
     # ------------------------------------------------------------------
-    def __init__(self):
+    def __init__(self, speed):
         self.window = Tk()
         self.window.title("Snake-and-Apple")
         self.canvas = Canvas(self.window, width=size_of_board, height=size_of_board)
         self.canvas.pack()
+        self.speed = speed
         # Input from user in form of clicks and keyboard
         self.window.bind("<Key>", self.key_input)
         self.play_again()
@@ -80,7 +81,7 @@ class SnakeAndApple:
             self.window.update()
             if self.begin:
                 if not self.crashed:
-                    self.window.after(DELAY, self.update_snake(self.last_key))
+                    self.window.after(self.speed, self.update_snake(self.last_key))
                 else:
                     self.begin = False
                     self.display_gameover()
@@ -249,5 +250,5 @@ class SnakeAndApple:
                 self.begin = True
                 self.last_key = key_pressed
         else:
-            if event.keysym == "r" or event.keysym == "R":  # 'R' Å°³ª 'Enter' Å° ÀÔ·Â È®ÀÎ
+            if event.keysym == "r" or event.keysym == "R":  # 'R' Å°ï¿½ï¿½ 'Enter' Å° ï¿½Ô·ï¿½ È®ï¿½ï¿½
                 self.play_again()        
