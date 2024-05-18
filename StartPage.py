@@ -14,6 +14,7 @@ class StartPage:
         self.window = Tk()
         self.window.title("Snake-and-Apple")
         self.setBackground()
+        self.speed = 150  # Base Speed
         self.setTitle()
         self.setStartButton()
         self.setSettingPageButton()
@@ -42,11 +43,7 @@ class StartPage:
             font="cmr 14 bold",
             command=self.startGame
         )
-        self.canvas.create_window(
-            500,
-            475,
-            window=startBtn
-        )
+        startBtn.pack(side="bottom", anchor="se", padx=5)
 
     def setSettingPageButton(self):
         settingPageBtn = tkinter.Button(
@@ -59,19 +56,18 @@ class StartPage:
             font="cmr 14 bold",
             command=self.moveSettingPage
         )
-        self.canvas.create_window(
-            500,
-            515,
-            window=settingPageBtn
-        )
+        settingPageBtn.pack(side="bottom", anchor="se", padx=5)
+
+    def setSpeed(self, speed):
+        self.speed = speed
 
     def startGame(self):
         self.window.withdraw()
-        SnakeAndApple(speed=100).mainloop()
+        SnakeAndApple(speed=self.speed).mainloop()
 
     def moveSettingPage(self):
         self.window.withdraw()
-        SettingPage()
+        SettingPage(self)
 
 
 game_instance = StartPage()
