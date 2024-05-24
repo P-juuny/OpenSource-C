@@ -1,0 +1,1 @@
+SIZE_BOARD = 600

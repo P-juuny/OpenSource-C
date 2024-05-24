@@ -1,11 +1,9 @@
 import tkinter
+import Color
+import Util
 from tkinter import *
-
 from SettingPage import SettingPage
 from SnakeAndApple import SnakeAndApple
-
-size_board = 600
-GREEN_COLOR = "#7BC043"
 
 
 class StartPage:
@@ -22,15 +20,15 @@ class StartPage:
         self.setSettingPageButton()
 
     def setBackground(self):
-        self.canvas = Canvas(self.window, width=size_board, height=size_board, bg="White")
+        self.canvas = Canvas(self.window, width=Util.SIZE_BOARD, height=Util.SIZE_BOARD, bg="White")
         self.canvas.pack()
 
     def setTitle(self):
         self.canvas.create_text(
-            size_board / 2,
-            3 * size_board / 8,
+            Util.SIZE_BOARD / 2,
+            3 * Util.SIZE_BOARD / 8,
             font="cmr 30 bold",
-            fill=GREEN_COLOR,
+            fill=Color.GREEN_COLOR,
             text="Welcome SnakeAndApple Game 😄",
         )
 

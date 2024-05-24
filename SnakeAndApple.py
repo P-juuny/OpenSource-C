@@ -1,27 +1,24 @@
 from tkinter import *
+import Util
+import Color
 import random
 import time
 import numpy as np
 from collections import deque
 from PIL import ImageTk,Image
 
-# Define useful parameters
-size_of_board = 600
 rows = 10
 cols = 10
 DELAY = 100
 snake_initial_length = 3
-symbol_size = (size_of_board / 3 - size_of_board / 8) / 2
+symbol_size = (Util.SIZE_BOARD / 3 - Util.SIZE_BOARD / 8) / 2
 symbol_thickness = 2
-RED_COLOR = "#EE4035"
-BLUE_COLOR = "#0492CF"
-GREEN_COLOR = "#7BC043"
 
 BLUE_COLOR_LIGHT = '#67B0CF'
 RED_COLOR_LIGHT = '#EE7E77'
 
-row_h = int(size_of_board / rows)
-col_w = int(size_of_board / cols)
+row_h = int(Util.SIZE_BOARD / rows)
+col_w = int(Util.SIZE_BOARD / cols)
 
 
 class SnakeAndApple:
@@ -31,7 +28,7 @@ class SnakeAndApple:
     def __init__(self, speed):
         self.window = Tk()
         self.window.title("Snake-and-Apple")
-        self.canvas = Canvas(self.window, width=size_of_board, height=size_of_board)
+        self.canvas = Canvas(self.window, width=Util.SIZE_BOARD, height=Util.SIZE_BOARD)
         self.canvas.pack()
         self.speed = speed
         # Input from user in form of clicks and keyboard
@@ -50,12 +47,12 @@ class SnakeAndApple:
 
         for i in range(rows):
             self.canvas.create_line(
-                i * row_h, 0, i * row_h, size_of_board,
+                i * row_h, 0, i * row_h, Util.SIZE_BOARD,
                 )
 
         for i in range(cols):
             self.canvas.create_line(
-                0, i * col_w, size_of_board, i * col_w,
+                0, i * col_w, Util.SIZE_BOARD, i * col_w,
                    )
 
     def initialize_snake(self):
@@ -103,32 +100,32 @@ class SnakeAndApple:
         # pic's upper left corner (NW) on the canvas is at x=50 y=10
 
         self.canvas.create_text(
-            size_of_board / 2,
-            3 * size_of_board / 8,
+            Util.SIZE_BOARD / 2,
+            3 * Util.SIZE_BOARD / 8,
             font="cmr 40 bold",
-            fill=GREEN_COLOR,
+            fill=Color.GREEN_COLOR,
             text=score_text,
             )
         score_text = str(score)
         self.canvas.create_text(
-            size_of_board / 2,
-            1 * size_of_board / 2,
+            Util.SIZE_BOARD / 2,
+            1 * Util.SIZE_BOARD / 2,
             font="cmr 50 bold",
-            fill=BLUE_COLOR,
+            fill=Color.BLUE_COLOR,
             text=score_text,
             )
         time_spent = str(np.round(time.time() - self.begin_time, 1)) + 'sec'
         self.canvas.create_text(
-            size_of_board / 2,
-            3 * size_of_board / 4,
+            Util.SIZE_BOARD / 2,
+            3 * Util.SIZE_BOARD / 4,
             font="cmr 20 bold",
-            fill=BLUE_COLOR,
+            fill=Color.BLUE_COLOR,
             text=time_spent,
             )
         score_text = "Push R(r) key to play again \n"
         self.canvas.create_text(
-            size_of_board / 2,
-            15 * size_of_board / 16,
+            Util.SIZE_BOARD / 2,
+            15 * Util.SIZE_BOARD / 16,
             font="cmr 20 bold",
             fill="gray",
             text=score_text,
@@ -143,7 +140,7 @@ class SnakeAndApple:
         x2 = x1 + row_h
         y2 = y1 + col_w
         self.apple_obj = self.canvas.create_rectangle(
-            x1, y1, x2, y2, fill=RED_COLOR_LIGHT, outline=BLUE_COLOR,
+            x1, y1, x2, y2, fill=RED_COLOR_LIGHT, outline=Color.BLUE_COLOR,
         )
 
     def display_snake(self, mode=""):
@@ -159,7 +156,7 @@ class SnakeAndApple:
                 y2 = y1 + col_w
                 self.snake_objects.append(
                     self.canvas.create_rectangle(
-                        x1, y1, x2, y2, fill=BLUE_COLOR, outline=BLUE_COLOR,
+                        x1, y1, x2, y2, fill=Color.BLUE_COLOR, outline=Color.BLUE_COLOR,
                     )
                 )
         else:
@@ -171,7 +168,7 @@ class SnakeAndApple:
             y2 = y1 + col_w
             self.snake_objects.append(
                 self.canvas.create_rectangle(
-                    x1, y1, x2, y2, fill=BLUE_COLOR, outline=RED_COLOR,
+                    x1, y1, x2, y2, fill=Color.BLUE_COLOR, outline=Color.RED_COLOR,
                 )
             )
 
@@ -185,7 +182,7 @@ class SnakeAndApple:
                 y2 = y1 + col_w
                 self.snake_objects.appendleft(
                     self.canvas.create_rectangle(
-                        x1, y1, x2, y2, fill=BLUE_COLOR, outline=RED_COLOR
+                        x1, y1, x2, y2, fill=Color.BLUE_COLOR, outline=Color.RED_COLOR
                     ),
                 )
             self.window.update()
