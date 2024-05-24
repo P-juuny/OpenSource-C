@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import tkinter
 from tkinter import *
 
@@ -15,6 +16,7 @@ class StartPage:
         self.window.title("Snake-and-Apple")
         self.setBackground()
         self.speed = 150  # Base Speed
+        self.testImage = PhotoImage(file="./images/test_image.png")
         self.setTitle()
         self.setStartButton()
         self.window.bind("<Return>", lambda event: self.startGame())
@@ -25,7 +27,15 @@ class StartPage:
         self.canvas = Canvas(self.window, width=size_board, height=size_board, bg="White")
         self.canvas.pack()
 
+    # 한글 주석 테스트
     def setTitle(self):
+        self.canvas.create_image(
+            size_board / 2,
+            3 * size_board / 8,
+            anchor=CENTER,
+            image=self.testImage
+        )
+
         self.canvas.create_text(
             size_board / 2,
             3 * size_board / 8,
@@ -34,6 +44,7 @@ class StartPage:
             text="Welcome SnakeAndApple Game 😄",
         )
 
+    # 알고리즘!
     def setStartButton(self):
         startBtn = tkinter.Button(
             self.window,
