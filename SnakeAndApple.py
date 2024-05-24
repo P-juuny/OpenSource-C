@@ -177,7 +177,8 @@ class SnakeAndApple:
                     x1, y1, x2, y2, fill=BLUE_COLOR, outline=RED_COLOR,
                 )
             )
-            if self.snake[0] == self.old_apple_cell:
+
+            if self.snake[-1] == self.old_apple_cell:
                 self.snake.appendleft(self.old_apple_cell)
                 self.old_apple_cell = []
                 tail = self.snake[0]
