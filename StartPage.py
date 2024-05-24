@@ -17,6 +17,8 @@ class StartPage:
         self.speed = 150  # Base Speed
         self.setTitle()
         self.setStartButton()
+        self.window.bind("<Return>", lambda event: self.startGame())
+        self.window.bind("<space>", lambda event: self.startGame())
         self.setSettingPageButton()
 
     def setBackground(self):
