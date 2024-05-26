@@ -13,6 +13,7 @@ class StartPage:
         self.window.title("Snake-and-Apple")
         self.setBackground()
         self.speed = 150  # Base Speed
+        self.poison = False
         self.setTitle()
         self.setStartButton()
         self.window.bind("<Return>", lambda event: self.startGame())
@@ -60,10 +61,13 @@ class StartPage:
 
     def setSpeed(self, speed):
         self.speed = speed
+    
+    def setPoison(self, poison):
+        self.poison = poison
 
     def startGame(self):
         self.window.withdraw()
-        SnakeAndApple(speed=self.speed).mainloop()
+        SnakeAndApple(speed=self.speed, poison=self.poison).mainloop()
 
     def moveSettingPage(self):
         self.window.withdraw()

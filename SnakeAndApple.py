@@ -25,12 +25,15 @@ class SnakeAndApple:
     # ------------------------------------------------------------------
     # Initialization Functions:
     # ------------------------------------------------------------------
-    def __init__(self, speed):
+    def __init__(self, speed, poison):
         self.window = Tk()
         self.window.title("Snake-and-Apple")
         self.canvas = Canvas(self.window, width=Util.SIZE_BOARD, height=Util.SIZE_BOARD)
         self.canvas.pack()
         self.speed = speed
+        self.poison_apple_enabled = poison
+        self.poison_apple = None
+        self.poison_apple_cell = None
         # Input from user in form of clicks and keyboard
         self.window.bind("<Key>", self.key_input)
         self.play_again()
@@ -74,6 +77,8 @@ class SnakeAndApple:
         self.initialize_board()
         self.initialize_snake()
         self.place_apple()
+        if self.poison_apple_enabled:
+            self.place_poison_apple()
         self.display_snake(mode="complete")
         self.begin_time = time.time()
 
@@ -142,6 +147,19 @@ class SnakeAndApple:
         y2 = y1 + col_w
         self.apple_obj = self.canvas.create_rectangle(
             x1, y1, x2, y2, fill=RED_COLOR_LIGHT, outline=Color.BLUE_COLOR,
+        )
+    
+    def place_poison_apple(self):
+        if not self.poison_apple_enabled:
+            return
+        unoccupied_cels = set(self.board) - set(self.snake) - {self.apple_cell}
+        self.poison_apple_cell = random.choice(list(unoccupied_cels))
+        x1 = self.poison_apple_cell[0] * row_h
+        y1 = self.poison_apple_cell[1] * col_w
+        x2 = x1 + row_h
+        y2 = y1 + col_w
+        self.poison_apple_obj = self.canvas.create_rectangle(
+            x1, y1, x2, y2, fill=Color.PURPLE_COLOR, outline=Color.BLUE_COLOR,
         )
 
     def display_snake(self, mode=""):
@@ -223,9 +241,18 @@ class SnakeAndApple:
             self.canvas.delete(self.apple_obj)
             self.place_apple()
             self.display_snake()
+        elif self.poison_apple_cell == head:
+            self.canvas.delete(self.poison_apple_obj)
+            self.place_poison_apple()
+            if len(self.snake) > 1:
+                self.canvas.delete(self.snake_objects.popleft())
+                self.snake.popleft()
+            else:
+                self.crashed = True
         else:
             self.snake_heading = key
             self.display_snake()
+
 
     def check_if_key_valid(self, key):
         valid_keys = ["Up", "Down", "Left", "Right"]
@@ -245,4 +272,11 @@ class SnakeAndApple:
                 self.last_key = key_pressed
         else:
             if event.keysym == "r" or event.keysym == "R":
-                self.play_again()        
+                self.play_again()
+
+    def smooth_tail_removal(self, item):
+        for opacity in range(10, -1, -1):
+            self.canvas.itemconfig(item, stipple="gray" + str(opacity*10))
+            self.canvas.update()
+        time.sleep(0.05)
+        self.canvas.delete(item)

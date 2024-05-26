@@ -147,6 +147,8 @@ class SettingPage:
 
     def applySettings(self):
         speed = self.speed
+        poison = self.poison
         self.parent.setSpeed(speed)
+        self.parent.setPoison(poison)
         self.parent.window.deiconify()
         self.window.destroy()
