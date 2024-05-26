@@ -273,10 +273,3 @@ class SnakeAndApple:
         else:
             if event.keysym == "r" or event.keysym == "R":
                 self.play_again()
-
-    def smooth_tail_removal(self, item):
-        for opacity in range(10, -1, -1):
-            self.canvas.itemconfig(item, stipple="gray" + str(opacity*10))
-            self.canvas.update()
-        time.sleep(0.05)
-        self.canvas.delete(item)
