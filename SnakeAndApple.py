@@ -5,32 +5,22 @@ import random
 import time
 import numpy as np
 from collections import deque
-from PIL import ImageTk,Image
+from PIL import ImageTk, Image
 
-rows = 10
-cols = 10
-DELAY = 100
-snake_initial_length = 3
-symbol_size = (Util.SIZE_BOARD / 3 - Util.SIZE_BOARD / 8) / 2
-symbol_thickness = 2
-
-BLUE_COLOR_LIGHT = '#67B0CF'
-RED_COLOR_LIGHT = '#EE7E77'
-
-row_h = int(Util.SIZE_BOARD / rows)
-col_w = int(Util.SIZE_BOARD / cols)
+SNAKE_INITIAL_LENGTH = 3
 
 
 class SnakeAndApple:
     # ------------------------------------------------------------------
     # Initialization Functions:
     # ------------------------------------------------------------------
-    def __init__(self, speed):
+    def __init__(self, speed, size):
         self.window = Tk()
         self.window.title("Snake-and-Apple")
         self.canvas = Canvas(self.window, width=Util.SIZE_BOARD, height=Util.SIZE_BOARD)
         self.canvas.pack()
         self.speed = speed
+        self.size = size
         # Input from user in form of clicks and keyboard
         self.window.bind("<Key>", self.key_input)
         self.play_again()
@@ -41,19 +31,19 @@ class SnakeAndApple:
         self.apple_obj = []
         self.old_apple_cell = []
 
-        for i in range(rows):
-            for j in range(cols):
+        for i in range(self.size):
+            for j in range(self.size):
                 self.board.append((i, j))
 
-        for i in range(rows):
+        for i in range(self.size):
             self.canvas.create_line(
-                i * row_h, 0, i * row_h, Util.SIZE_BOARD,
-                )
+                i * int(Util.SIZE_BOARD / self.size), 0, i * int(Util.SIZE_BOARD / self.size), Util.SIZE_BOARD,
+            )
 
-        for i in range(cols):
+        for i in range(self.size):
             self.canvas.create_line(
-                0, i * col_w, Util.SIZE_BOARD, i * col_w,
-                   )
+                0, i * int(Util.SIZE_BOARD / self.size), Util.SIZE_BOARD, i * int(Util.SIZE_BOARD / self.size),
+            )
 
     def initialize_snake(self):
         self.snake = deque()
@@ -66,7 +56,7 @@ class SnakeAndApple:
         self.forbidden_actions["Up"] = "Down"
         self.forbidden_actions["Down"] = "Up"
         self.snake_objects = deque()
-        for i in range(snake_initial_length):
+        for i in range(SNAKE_INITIAL_LENGTH):
             self.snake.append((i, 0))
 
     def play_again(self):
@@ -87,7 +77,6 @@ class SnakeAndApple:
                     self.begin = False
                     self.display_gameover()
 
-
     # ------------------------------------------------------------------
     # Drawing Functions:
     # The modules required to draw required game based object on canvas
@@ -106,7 +95,7 @@ class SnakeAndApple:
             font="cmr 40 bold",
             fill=Color.GREEN_COLOR,
             text=score_text,
-            )
+        )
         score_text = str(score)
         self.canvas.create_text(
             Util.SIZE_BOARD / 2,
@@ -114,7 +103,7 @@ class SnakeAndApple:
             font="cmr 50 bold",
             fill=Color.BLUE_COLOR,
             text=score_text,
-            )
+        )
         time_spent = str(np.round(time.time() - self.begin_time, 1)) + 'sec'
         self.canvas.create_text(
             Util.SIZE_BOARD / 2,
@@ -122,7 +111,7 @@ class SnakeAndApple:
             font="cmr 20 bold",
             fill=Color.BLUE_COLOR,
             text=time_spent,
-            )
+        )
         score_text = "Push R(r) key to play again \n"
         self.canvas.create_text(
             Util.SIZE_BOARD / 2,
@@ -130,18 +119,18 @@ class SnakeAndApple:
             font="cmr 20 bold",
             fill="gray",
             text=score_text,
-            )
+        )
 
     def place_apple(self):
         # Place apple randomly anywhere except at the cells occupied by snake
         unoccupied_cels = set(self.board) - set(self.snake)
         self.apple_cell = random.choice(list(unoccupied_cels))
-        x1 = self.apple_cell[0] * row_h
-        y1 = self.apple_cell[1] * col_w
-        x2 = x1 + row_h
-        y2 = y1 + col_w
+        x1 = self.apple_cell[0] * int(Util.SIZE_BOARD / self.size)
+        y1 = self.apple_cell[1] * int(Util.SIZE_BOARD / self.size)
+        x2 = x1 + int(Util.SIZE_BOARD / self.size)
+        y2 = y1 + int(Util.SIZE_BOARD / self.size)
         self.apple_obj = self.canvas.create_rectangle(
-            x1, y1, x2, y2, fill=RED_COLOR_LIGHT, outline=Color.BLUE_COLOR,
+            x1, y1, x2, y2, fill=Color.RED_COLOR_LIGHT, outline=Color.BLUE_COLOR,
         )
 
     def display_snake(self, mode=""):
@@ -151,10 +140,10 @@ class SnakeAndApple:
         if mode == "complete":
             for i, cell in enumerate(self.snake):
                 # print(cell)
-                x1 = cell[0] * row_h
-                y1 = cell[1] * col_w
-                x2 = x1 + row_h
-                y2 = y1 + col_w
+                x1 = cell[0] * int(Util.SIZE_BOARD / self.size)
+                y1 = cell[1] * int(Util.SIZE_BOARD / self.size)
+                x2 = x1 + int(Util.SIZE_BOARD / self.size)
+                y2 = y1 + int(Util.SIZE_BOARD / self.size)
                 self.snake_objects.append(
                     self.canvas.create_rectangle(
                         x1, y1, x2, y2, fill=Color.BLUE_COLOR, outline=Color.BLUE_COLOR,
@@ -163,10 +152,10 @@ class SnakeAndApple:
         else:
             # only update head
             cell = self.snake[-1]
-            x1 = cell[0] * row_h
-            y1 = cell[1] * col_w
-            x2 = x1 + row_h
-            y2 = y1 + col_w
+            x1 = cell[0] * int(Util.SIZE_BOARD / self.size)
+            y1 = cell[1] * int(Util.SIZE_BOARD / self.size)
+            x2 = x1 + int(Util.SIZE_BOARD / self.size)
+            y2 = y1 + int(Util.SIZE_BOARD / self.size)
             self.snake_objects.append(
                 self.canvas.create_rectangle(
                     x1, y1, x2, y2, fill=Color.BLUE_COLOR, outline=Color.RED_COLOR,
@@ -177,10 +166,10 @@ class SnakeAndApple:
                 self.snake.appendleft(self.old_apple_cell)
                 self.old_apple_cell = []
                 tail = self.snake[0]
-                x1 = tail[0] * row_h
-                y1 = tail[1] * col_w
-                x2 = x1 + row_h
-                y2 = y1 + col_w
+                x1 = tail[0] * int(Util.SIZE_BOARD / self.size)
+                y1 = tail[1] * int(Util.SIZE_BOARD / self.size)
+                x2 = x1 + int(Util.SIZE_BOARD / self.size)
+                y2 = y1 + int(Util.SIZE_BOARD / self.size)
                 self.snake_objects.appendleft(
                     self.canvas.create_rectangle(
                         x1, y1, x2, y2, fill=Color.BLUE_COLOR, outline=Color.RED_COLOR
@@ -209,9 +198,9 @@ class SnakeAndApple:
 
         head = self.snake[-1]
         if (
-                head[0] > cols - 1
+                head[0] > self.size - 1
                 or head[0] < 0
-                or head[1] > rows - 1
+                or head[1] > self.size - 1
                 or head[1] < 0
                 or len(set(self.snake)) != len(self.snake)
         ):
@@ -234,15 +223,14 @@ class SnakeAndApple:
         else:
             return False
 
-
     def key_input(self, event):
         if not self.crashed:
             key_pressed = event.keysym
-            if key_pressed == 'p':  
-                self.begin = not self.begin  
+            if key_pressed == 'p':
+                self.begin = not self.begin
             elif self.check_if_key_valid(key_pressed):
-                self.begin = True 
+                self.begin = True
                 self.last_key = key_pressed
         else:
             if event.keysym == "r" or event.keysym == "R":
-                self.play_again()        
+                self.play_again()

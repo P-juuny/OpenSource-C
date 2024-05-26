@@ -13,6 +13,7 @@ class StartPage:
         self.window.title("Snake-and-Apple")
         self.setBackground()
         self.speed = 150  # Base Speed
+        self.size = 10  # Base Board Size
         self.setTitle()
         self.setStartButton()
         self.window.bind("<Return>", lambda event: self.startGame())
@@ -61,9 +62,12 @@ class StartPage:
     def setSpeed(self, speed):
         self.speed = speed
 
+    def setBoardSize(self, size):
+        self.size = size
+
     def startGame(self):
         self.window.withdraw()
-        SnakeAndApple(speed=self.speed).mainloop()
+        SnakeAndApple(speed=self.speed, size=self.size).mainloop()
 
     def moveSettingPage(self):
         self.window.withdraw()
