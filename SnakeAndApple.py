@@ -25,12 +25,13 @@ class SnakeAndApple:
     # ------------------------------------------------------------------
     # Initialization Functions:
     # ------------------------------------------------------------------
-    def __init__(self, speed):
+    def __init__(self, speed, color):
         self.window = Tk()
         self.window.title("Snake-and-Apple")
         self.canvas = Canvas(self.window, width=Util.SIZE_BOARD, height=Util.SIZE_BOARD)
         self.canvas.pack()
         self.speed = speed
+        self.color=color
         # Input from user in form of clicks and keyboard
         self.window.bind("<Key>", self.key_input)
         self.play_again()
@@ -157,7 +158,7 @@ class SnakeAndApple:
                 y2 = y1 + col_w
                 self.snake_objects.append(
                     self.canvas.create_rectangle(
-                        x1, y1, x2, y2, fill=Color.BLUE_COLOR, outline=Color.BLUE_COLOR,
+                        x1, y1, x2, y2, fill=self.color, outline=self.color,
                     )
                 )
         else:
@@ -169,7 +170,7 @@ class SnakeAndApple:
             y2 = y1 + col_w
             self.snake_objects.append(
                 self.canvas.create_rectangle(
-                    x1, y1, x2, y2, fill=Color.BLUE_COLOR, outline=Color.RED_COLOR,
+                    x1, y1, x2, y2, fill=self.color, outline=self.color,
                 )
             )
 
@@ -183,7 +184,7 @@ class SnakeAndApple:
                 y2 = y1 + col_w
                 self.snake_objects.appendleft(
                     self.canvas.create_rectangle(
-                        x1, y1, x2, y2, fill=Color.BLUE_COLOR, outline=Color.RED_COLOR
+                        x1, y1, x2, y2, fill=self.color, outline=self.color
                     ),
                 )
             self.window.update()

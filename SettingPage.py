@@ -74,11 +74,11 @@ class SettingPage:
         self.createSpeedRadioButton(x=460, y=100, text="매우 어려움", speed=30, color=Color.HARD_RED_1)
 
     def setSnakeColorRadioButton(self):
-        self.createSnakeColorRadioButton(x=140, y=150, text="색상", color=Color.LIGHT_GREEN_1)
-        self.createSnakeColorRadioButton(x=220, y=150, text="색상", color=Color.BLUE_COLOR)
-        self.createSnakeColorRadioButton(x=290, y=150, text="색상", color=Color.RED_COLOR)
-        self.createSnakeColorRadioButton(x=360, y=150, text="색상", color=Color.MIDDLE_ORANGE_1)
-        self.createSnakeColorRadioButton(x=460, y=150, text="색상", color=Color.HARD_RED_1)
+        self.createSnakeColorRadioButton(x=140, y=150, text="연두", color=Color.LIGHT_GREEN_1)
+        self.createSnakeColorRadioButton(x=220, y=150, text="파랑", color=Color.BLUE_COLOR)
+        self.createSnakeColorRadioButton(x=290, y=150, text="빨강", color=Color.RED_COLOR)
+        self.createSnakeColorRadioButton(x=360, y=150, text="주황", color=Color.MIDDLE_ORANGE_1)
+        self.createSnakeColorRadioButton(x=460, y=150, text="노랑", color=Color.YELLOW_COLOR)
 
     def setPoisonSettingRadioButton(self):
         self.createPoisonRadioButton(x=140, y=200, text="포함", value=True, color=Color.PURPLE_COLOR)
@@ -147,6 +147,8 @@ class SettingPage:
 
     def applySettings(self):
         speed = self.speed
+        color=self.color
         self.parent.setSpeed(speed)
+        self.parent.setColor(color)
         self.parent.window.deiconify()
         self.window.destroy()
