@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from tkinter import *
 import Util
 import Color
@@ -80,13 +82,12 @@ class SnakeAndApple:
     def mainloop(self):
         while True:
             self.window.update()
-            if self.begin:  # self.beginì´ Trueì¼ ëë§ ê²ìì´ ìë°ì´í¸ë¨
+            if self.begin:
                 if not self.crashed:
                     self.window.after(self.speed, self.update_snake(self.last_key))
                 else:
                     self.begin = False
                     self.display_gameover()
-
 
     # ------------------------------------------------------------------
     # Drawing Functions:
@@ -241,7 +242,7 @@ class SnakeAndApple:
             if key_pressed == 'p':  
                 self.begin = not self.begin  
             elif self.check_if_key_valid(key_pressed):
-                self.begin = True 
+                self.begin = True
                 self.last_key = key_pressed
         else:
             if event.keysym == "r" or event.keysym == "R":

@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import tkinter
 import Color
 import Util
