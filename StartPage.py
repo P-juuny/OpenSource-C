@@ -1,12 +1,16 @@
 # -*- coding: utf-8 -*-
+<<<<<<< HEAD
 import tkinter
 from tkinter import *
+=======
+>>>>>>> develop
 
+import tkinter
+import Color
+import Util
+from tkinter import *
 from SettingPage import SettingPage
 from SnakeAndApple import SnakeAndApple
-
-size_board = 600
-GREEN_COLOR = "#7BC043"
 
 
 class StartPage:
@@ -17,6 +21,8 @@ class StartPage:
         self.setBackground()
         self.speed = 150  # Base Speed
         self.testImage = PhotoImage(file="./images/test_image.png")
+        self.size = 10  # Base Board Size
+
         self.setTitle()
         self.setStartButton()
         self.window.bind("<Return>", lambda event: self.startGame())
@@ -24,23 +30,23 @@ class StartPage:
         self.setSettingPageButton()
 
     def setBackground(self):
-        self.canvas = Canvas(self.window, width=size_board, height=size_board, bg="White")
+        self.canvas = Canvas(self.window, width=Util.SIZE_BOARD, height=Util.SIZE_BOARD, bg="White")
         self.canvas.pack()
 
     # 한글 주석 테스트
     def setTitle(self):
         self.canvas.create_image(
-            size_board / 2,
-            3 * size_board / 8,
+            self.size / 2,
+            3 * self.size / 8,
             anchor=CENTER,
             image=self.testImage
         )
 
         self.canvas.create_text(
-            size_board / 2,
-            3 * size_board / 8,
+            Util.SIZE_BOARD / 2,
+            3 * Util.SIZE_BOARD / 8,
             font="cmr 30 bold",
-            fill=GREEN_COLOR,
+            fill=Color.GREEN_COLOR,
             text="Welcome SnakeAndApple Game 😄",
         )
 
@@ -74,9 +80,12 @@ class StartPage:
     def setSpeed(self, speed):
         self.speed = speed
 
+    def setBoardSize(self, size):
+        self.size = size
+
     def startGame(self):
         self.window.withdraw()
-        SnakeAndApple(speed=self.speed).mainloop()
+        SnakeAndApple(speed=self.speed, size=self.size).mainloop()
 
     def moveSettingPage(self):
         self.window.withdraw()
