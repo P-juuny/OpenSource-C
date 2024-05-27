@@ -1,16 +1,12 @@
 # -*- coding: utf-8 -*-
-<<<<<<< HEAD
-import tkinter
-from tkinter import *
-=======
->>>>>>> develop
 
 import tkinter
+from tkinter import *
 import Color
 import Util
-from tkinter import *
 from SettingPage import SettingPage
 from SnakeAndApple import SnakeAndApple
+from PIL import Image, ImageTk
 
 
 class StartPage:
@@ -20,7 +16,11 @@ class StartPage:
         self.window.title("Snake-and-Apple")
         self.setBackground()
         self.speed = 150  # Base Speed
-        self.testImage = PhotoImage(file="./images/test_image.png")
+
+        original_image = Image.open("./images/test_image.png")
+        resized_image = original_image.resize((100, 100))  # 원하는 크기로 조정
+        self.testImage = ImageTk.PhotoImage(resized_image)
+
         self.size = 10  # Base Board Size
 
         self.setTitle()
@@ -33,11 +33,11 @@ class StartPage:
         self.canvas = Canvas(self.window, width=Util.SIZE_BOARD, height=Util.SIZE_BOARD, bg="White")
         self.canvas.pack()
 
-    # 한글 주석 테스트
     def setTitle(self):
+        # 사진 삽입 
         self.canvas.create_image(
-            self.size / 2,
-            3 * self.size / 8,
+            self.size / 8 + 100, # 좌 상단 y좌표
+            self.size / 8 + 100, # 좌 상단 x좌표
             anchor=CENTER,
             image=self.testImage
         )
@@ -50,7 +50,6 @@ class StartPage:
             text="Welcome SnakeAndApple Game 😄",
         )
 
-    # 알고리즘!
     def setStartButton(self):
         startBtn = tkinter.Button(
             self.window,

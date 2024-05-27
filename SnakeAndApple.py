@@ -17,12 +17,18 @@ class SnakeAndApple:
     # Initialization Functions:
     # ------------------------------------------------------------------
     def __init__(self, speed, size):
-        self.window = Tk()
+        self.window = Toplevel()
         self.window.title("Snake-and-Apple")
         self.canvas = Canvas(self.window, width=Util.SIZE_BOARD, height=Util.SIZE_BOARD)
         self.canvas.pack()
         self.speed = speed
         self.size = size
+
+        # 뱀 몸통 사진 설정
+        self.snake_body_image = Image.open("./images/test_image.png")
+        self.snake_body_image = self.snake_body_image.resize((int(Util.SIZE_BOARD / self.size), int(Util.SIZE_BOARD / self.size)))
+        self.snake_body_image = ImageTk.PhotoImage(self.snake_body_image)
+
         # Input from user in form of clicks and keyboard
         self.window.bind("<Key>", self.key_input)
         self.play_again()
@@ -147,8 +153,11 @@ class SnakeAndApple:
                 x2 = x1 + int(Util.SIZE_BOARD / self.size)
                 y2 = y1 + int(Util.SIZE_BOARD / self.size)
                 self.snake_objects.append(
-                    self.canvas.create_rectangle(
-                        x1, y1, x2, y2, fill=Color.BLUE_COLOR, outline=Color.BLUE_COLOR,
+                    self.canvas.create_image(
+                        x1 + int(Util.SIZE_BOARD / self.size) / 2,
+                        y1 + int(Util.SIZE_BOARD / self.size) / 2,
+                        anchor=CENTER,
+                        image=self.snake_body_image
                     )
                 )
         else:
@@ -159,9 +168,12 @@ class SnakeAndApple:
             x2 = x1 + int(Util.SIZE_BOARD / self.size)
             y2 = y1 + int(Util.SIZE_BOARD / self.size)
             self.snake_objects.append(
-                self.canvas.create_rectangle(
-                    x1, y1, x2, y2, fill=Color.BLUE_COLOR, outline=Color.RED_COLOR,
-                )
+                self.canvas.create_image(
+                        x1 + int(Util.SIZE_BOARD / self.size) / 2,
+                        y1 + int(Util.SIZE_BOARD / self.size) / 2,
+                        anchor=CENTER,
+                        image=self.snake_body_image
+                    )
             )
 
             if self.snake[-1] == self.old_apple_cell:
@@ -173,9 +185,12 @@ class SnakeAndApple:
                 x2 = x1 + int(Util.SIZE_BOARD / self.size)
                 y2 = y1 + int(Util.SIZE_BOARD / self.size)
                 self.snake_objects.appendleft(
-                    self.canvas.create_rectangle(
-                        x1, y1, x2, y2, fill=Color.BLUE_COLOR, outline=Color.RED_COLOR
-                    ),
+                    self.canvas.create_image(
+                        x1 + int(Util.SIZE_BOARD / self.size) / 2,
+                        y1 + int(Util.SIZE_BOARD / self.size) / 2,
+                        anchor=CENTER,
+                        image=self.snake_body_image
+                    )
                 )
             self.window.update()
 
