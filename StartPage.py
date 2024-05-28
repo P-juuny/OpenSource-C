@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import tkinter
 import Color
 import Util
@@ -14,6 +16,7 @@ class StartPage:
         self.setBackground()
         self.speed = 150  # Base Speed
         self.poison = False
+        self.size = 10  # Base Board Size
         self.setTitle()
         self.setStartButton()
         self.window.bind("<Return>", lambda event: self.startGame())
@@ -65,9 +68,12 @@ class StartPage:
     def setPoison(self, poison):
         self.poison = poison
 
+    def setBoardSize(self, size):
+        self.size = size
+
     def startGame(self):
         self.window.withdraw()
-        SnakeAndApple(speed=self.speed, poison=self.poison).mainloop()
+        SnakeAndApple(speed=self.speed, size=self.size, poison=self.poison).mainloop()
 
     def moveSettingPage(self):
         self.window.withdraw()
