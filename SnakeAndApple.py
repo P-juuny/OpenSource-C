@@ -158,7 +158,7 @@ class SnakeAndApple:
                 y2 = y1 + col_w
                 self.snake_objects.append(
                     self.canvas.create_rectangle(
-                        x1, y1, x2, y2, fill=self.color, outline=self.color,
+                        x1, y1, x2, y2, fill=self.color, outline=Color.PURPLE_COLOR
                     )
                 )
         else:
@@ -170,7 +170,7 @@ class SnakeAndApple:
             y2 = y1 + col_w
             self.snake_objects.append(
                 self.canvas.create_rectangle(
-                    x1, y1, x2, y2, fill=self.color, outline=self.color,
+                    x1, y1, x2, y2, fill=self.color, outline=Color.PURPLE_COLOR
                 )
             )
 
@@ -184,7 +184,7 @@ class SnakeAndApple:
                 y2 = y1 + col_w
                 self.snake_objects.appendleft(
                     self.canvas.create_rectangle(
-                        x1, y1, x2, y2, fill=self.color, outline=self.color
+                        x1, y1, x2, y2, fill=self.color, outline=Color.PURPLE_COLOR
                     ),
                 )
             self.window.update()
