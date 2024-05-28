@@ -33,9 +33,9 @@ class SnakeAndApple:
         self.speed = speed
         self.poison_apple_enabled = poison
         self.poison_apple = None
-        self.poison_apple_cell = None
         # Input from user in form of clicks and keyboard
         self.window.bind("<Key>", self.key_input)
+        self.game_over_by_poison = False
         self.play_again()
         self.begin = False
 
@@ -43,6 +43,7 @@ class SnakeAndApple:
         self.board = []
         self.apple_obj = []
         self.old_apple_cell = []
+        self.old_poison_apple_cell= []
 
         for i in range(rows):
             for j in range(cols):
@@ -81,6 +82,7 @@ class SnakeAndApple:
             self.place_poison_apple()
         self.display_snake(mode="complete")
         self.begin_time = time.time()
+        self.game_over_by_poison = False
 
     def mainloop(self):
         while True:
@@ -98,7 +100,7 @@ class SnakeAndApple:
     # The modules required to draw required game based object on canvas
     # ------------------------------------------------------------------
     def display_gameover(self):
-        score = len(self.snake)
+        score = 0 if self.game_over_by_poison and len(self.snake) == 1 else len(self.snake)
         self.canvas.delete("all")
         score_text = "Scores \n"
 
@@ -204,6 +206,10 @@ class SnakeAndApple:
                         x1, y1, x2, y2, fill=Color.BLUE_COLOR, outline=Color.RED_COLOR
                     ),
                 )
+
+            if self.snake[-1] == self.old_poison_apple_cell:
+                self.canvas.delete(self.snake_objects.popleft())
+                
             self.window.update()
 
     # ------------------------------------------------------------------
@@ -242,13 +248,15 @@ class SnakeAndApple:
             self.place_apple()
             self.display_snake()
         elif self.poison_apple_cell == head:
-            self.canvas.delete(self.poison_apple_obj)
-            self.place_poison_apple()
+            self.old_poison_apple_cell = self.poison_apple_cell
             if len(self.snake) > 1:
-                self.canvas.delete(self.snake_objects.popleft())
                 self.snake.popleft()
             else:
+                self.game_over_by_poison = True
                 self.crashed = True
+            self.canvas.delete(self.poison_apple_obj)
+            self.place_poison_apple()
+            self.display_snake()             
         else:
             self.snake_heading = key
             self.display_snake()
