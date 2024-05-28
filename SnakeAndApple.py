@@ -32,7 +32,7 @@ class SnakeAndApple:
         self.canvas.pack()
         self.speed = speed
         self.poison_apple_enabled = poison
-        self.poison_apple = None
+        self.poison_apple_cell = None
         # Input from user in form of clicks and keyboard
         self.window.bind("<Key>", self.key_input)
         self.game_over_by_poison = False
@@ -152,8 +152,6 @@ class SnakeAndApple:
         )
     
     def place_poison_apple(self):
-        if not self.poison_apple_enabled:
-            return
         unoccupied_cels = set(self.board) - set(self.snake) - {self.apple_cell}
         self.poison_apple_cell = random.choice(list(unoccupied_cels))
         x1 = self.poison_apple_cell[0] * row_h
@@ -247,7 +245,7 @@ class SnakeAndApple:
             self.canvas.delete(self.apple_obj)
             self.place_apple()
             self.display_snake()
-        elif self.poison_apple_cell == head:
+        elif self.poison_apple_enabled and self.poison_apple_cell == head:
             self.old_poison_apple_cell = self.poison_apple_cell
             if len(self.snake) > 1:
                 self.snake.popleft()
