@@ -8,6 +8,7 @@ import time
 import numpy as np
 from collections import deque
 from PIL import ImageTk, Image
+import pygame
 
 SNAKE_INITIAL_LENGTH = 3
 
@@ -27,6 +28,12 @@ class SnakeAndApple:
         self.window.bind("<Key>", self.key_input)
         self.play_again()
         self.begin = False
+         # pygame 초기화
+        pygame.mixer.init()
+        pygame.mixer.music.load('sounds/background_music.wav')
+        pygame.mixer.music.play(-1)  # -1은 음악을 무한 반복 재생
+        self.eat_sound = pygame.mixer.Sound('sounds/eatingapple.wav')
+        self.gameover_sound = pygame.mixer.Sound('sounds/gameover.wav')
 
     def initialize_board(self):
         self.board = []
@@ -78,6 +85,8 @@ class SnakeAndApple:
                 else:
                     self.begin = False
                     self.display_gameover()
+                    pygame.mixer.music.stop()
+                    self.gameover_sound.play()
 
     # ------------------------------------------------------------------
     # Drawing Functions:
@@ -210,6 +219,7 @@ class SnakeAndApple:
             self.crashed = True
         elif self.apple_cell == head:
             # Got the apple
+            self.eat_sound.play()
             self.old_apple_cell = self.apple_cell
             self.canvas.delete(self.apple_obj)
             self.place_apple()
@@ -236,3 +246,4 @@ class SnakeAndApple:
         else:
             if event.keysym == "r" or event.keysym == "R":
                 self.play_again()
+                pygame.mixer.music.play(-1)  # 게임을 다시 시작할 때 배경 음악 재생
