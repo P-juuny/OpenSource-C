@@ -183,6 +183,7 @@ class SettingPage:
 
     def applySettings(self):
         self.parent.setColor(self.color)
+        self.parent.setPoison(self.poison)
         self.parent.setSpeed(self.speed)
         self.parent.setBoardSize(self.size)
         self.parent.window.deiconify()

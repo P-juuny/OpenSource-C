@@ -16,6 +16,7 @@ class StartPage:
         self.setBackground()
         self.speed = 150  # Base Speed
         self.color = Color.BLUE_COLOR #default color
+        self.poison = False
         self.size = 10  # Base Board Size
         self.setTitle()
         self.setStartButton()
@@ -64,6 +65,9 @@ class StartPage:
 
     def setSpeed(self, speed):
         self.speed = speed
+    
+    def setPoison(self, poison):
+        self.poison = poison
 
     def setBoardSize(self, size):
         self.size = size
@@ -73,7 +77,7 @@ class StartPage:
         
     def startGame(self):
         self.window.withdraw()
-        SnakeAndApple(speed=self.speed, size=self.size, color=self.color).mainloop()
+        SnakeAndApple(speed=self.speed, size=self.size, color=self.color, poison=self.poison).mainloop()
 
     def moveSettingPage(self):
         self.window.withdraw()
