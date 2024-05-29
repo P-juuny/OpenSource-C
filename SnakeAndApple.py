@@ -16,7 +16,7 @@ class SnakeAndApple:
     # ------------------------------------------------------------------
     # Initialization Functions:
     # ------------------------------------------------------------------
-    def __init__(self, speed, size, color, poison):
+    def __init__(self, parent, speed, size, color, poison):
         self.window = Tk()
         self.window.title("Snake-and-Apple")
         self.canvas = Canvas(self.window, width=Util.SIZE_BOARD, height=Util.SIZE_BOARD)
@@ -31,6 +31,7 @@ class SnakeAndApple:
         self.game_over_by_poison = False
         self.play_again()
         self.begin = False
+        self.parent = parent
 
     def initialize_board(self):
         self.board = []
@@ -77,6 +78,10 @@ class SnakeAndApple:
         self.begin_time = time.time()
         self.game_over_by_poison = False
 
+    def move_startpage(self):
+        self.parent.window.deiconify()
+        self.window.destroy()
+
     def mainloop(self):
         while True:
             self.window.update()
@@ -94,7 +99,7 @@ class SnakeAndApple:
     def display_gameover(self):
         score = 0 if self.game_over_by_poison and len(self.snake) == 1 else len(self.snake)
         self.canvas.delete("all")
-        score_text = "Scores \n"
+        score_text = "점수 \n"
 
         # put gif image on canvas
         # pic's upper left corner (NW) on the canvas is at x=50 y=10
@@ -114,7 +119,7 @@ class SnakeAndApple:
             fill=Color.BLUE_COLOR,
             text=score_text,
         )
-        time_spent = str(np.round(time.time() - self.begin_time, 1)) + 'sec'
+        time_spent = '생존시간: ' + str(np.round(time.time() - self.begin_time, 1)) + '초'
         self.canvas.create_text(
             Util.SIZE_BOARD / 2,
             3 * Util.SIZE_BOARD / 4,
@@ -122,13 +127,21 @@ class SnakeAndApple:
             fill=Color.BLUE_COLOR,
             text=time_spent,
         )
-        score_text = "Push R(r) key to play again \n"
+        score_text = "다시 시작하기 (R)"
         self.canvas.create_text(
             Util.SIZE_BOARD / 2,
-            15 * Util.SIZE_BOARD / 16,
+            530,
             font="cmr 20 bold",
             fill="gray",
             text=score_text,
+        )
+        move_start_text = "처음으로 돌아가기 (E) \n"
+        self.canvas.create_text(
+            Util.SIZE_BOARD / 2,
+            580,
+            font="cmr 20 bold",
+            fill="gray",
+            text=move_start_text
         )
 
     def place_apple(self):
@@ -270,3 +283,5 @@ class SnakeAndApple:
         else:
             if event.keysym == "r" or event.keysym == "R":
                 self.play_again()
+            if event.keysym == "e" or event.keysym == "E":
+                self.move_startpage()

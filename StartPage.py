@@ -77,7 +77,7 @@ class StartPage:
 
     def start_game(self):
         self.window.withdraw()
-        SnakeAndApple(speed=self.speed, size=self.size, color=self.color, poison=self.poison).mainloop()
+        SnakeAndApple(parent=self, speed=self.speed, size=self.size, color=self.color, poison=self.poison).mainloop()
 
     def move_setting_page(self):
         self.window.withdraw()
