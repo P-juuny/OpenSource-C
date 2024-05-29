@@ -182,6 +182,7 @@ class SettingPage:
         self.canvas.create_window(500, 550, window=exitBtn)
 
     def applySettings(self):
+        self.parent.setPoison(self.poison)
         self.parent.setSpeed(self.speed)
         self.parent.setBoardSize(self.size)
         self.parent.window.deiconify()
