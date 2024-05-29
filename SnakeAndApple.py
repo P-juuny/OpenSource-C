@@ -28,7 +28,6 @@ class SnakeAndApple:
         self.window.bind("<Key>", self.key_input)
         self.play_again()
         self.begin = False
-         # pygame 초기화
         pygame.mixer.init()
         pygame.mixer.music.load('sounds/background_music.wav')
         pygame.mixer.music.play(-1)  # -1은 음악을 무한 반복 재생
