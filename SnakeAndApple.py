@@ -34,7 +34,6 @@ class SnakeAndApple:
         self.play_again()
         self.begin = False
         self.parent = parent
-        
 
     def initialize_image(self, path):
         image = Image.open(path).resize((int(Util.SIZE_BOARD / self.size), int(Util.SIZE_BOARD / self.size)))
