@@ -3,6 +3,7 @@
 from tkinter import *
 import Util
 import Color
+import Images
 import random
 import time
 import numpy as np
@@ -29,8 +30,8 @@ class SnakeAndApple:
         # Input from user in form of clicks and keyboard
         self.window.bind("<Key>", self.key_input)
         self.game_over_by_poison = False
-        self.apple_image = self.initialize_image("./images/apple.png")
-        self.poison_apple_image = self.initialize_image("./images/poison_apple.png")
+        self.apple_image = self.initialize_image(Images.APPLE_IMAGE_PATH)
+        self.poison_apple_image = self.initialize_image(Images.POISON_APPLE_IMAGE_PATH)
         self.play_again()
         self.begin = False
         self.parent = parent
