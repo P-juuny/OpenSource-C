@@ -13,22 +13,22 @@ class StartPage:
         self.canvas = None
         self.window = Tk()
         self.window.title("Snake-and-Apple")
-        self.setBackground()
+        self.initialize_board()
         self.speed = 150  # Base Speed
-        self.color = Color.BLUE_COLOR #default color
+        self.color = Color.BLUE_COLOR  # default color
         self.poison = False
         self.size = 10  # Base Board Size
-        self.setTitle()
-        self.setStartButton()
-        self.window.bind("<Return>", lambda event: self.startGame())
-        self.window.bind("<space>", lambda event: self.startGame())
-        self.setSettingPageButton()
+        self.initialize_title()
+        self.display_start()
+        self.window.bind("<Return>", lambda event: self.start_game())
+        self.window.bind("<space>", lambda event: self.start_game())
+        self.display_setting()
 
-    def setBackground(self):
+    def initialize_board(self):
         self.canvas = Canvas(self.window, width=Util.SIZE_BOARD, height=Util.SIZE_BOARD, bg="White")
         self.canvas.pack()
 
-    def setTitle(self):
+    def initialize_title(self):
         self.canvas.create_text(
             Util.SIZE_BOARD / 2,
             3 * Util.SIZE_BOARD / 8,
@@ -37,8 +37,8 @@ class StartPage:
             text="Welcome SnakeAndApple Game 😄",
         )
 
-    def setStartButton(self):
-        startBtn = tkinter.Button(
+    def display_start(self):
+        button = tkinter.Button(
             self.window,
             text="시작하기 🐍",
             width=10,
@@ -46,12 +46,12 @@ class StartPage:
             pady=5,
             borderwidth=0.2,
             font="cmr 14 bold",
-            command=self.startGame
+            command=self.start_game
         )
-        startBtn.pack(side="bottom", anchor="se", padx=5)
+        button.pack(side="bottom", anchor="se", padx=5)
 
-    def setSettingPageButton(self):
-        settingPageBtn = tkinter.Button(
+    def display_setting(self):
+        button = tkinter.Button(
             self.window,
             text="게임설정 ⚙️",
             width=10,
@@ -59,27 +59,27 @@ class StartPage:
             pady=5,
             borderwidth=0.2,
             font="cmr 14 bold",
-            command=self.moveSettingPage
+            command=self.move_setting_page
         )
-        settingPageBtn.pack(side="bottom", anchor="se", padx=5)
+        button.pack(side="bottom", anchor="se", padx=5)
 
-    def setSpeed(self, speed):
+    def setting_speed(self, speed):
         self.speed = speed
-    
-    def setPoison(self, poison):
+
+    def setting_poison(self, poison):
         self.poison = poison
 
-    def setBoardSize(self, size):
+    def setting_size(self, size):
         self.size = size
-    
-    def setColor(self, color):
-        self.color=color
-        
-    def startGame(self):
+
+    def setting_color(self, color):
+        self.color = color
+
+    def start_game(self):
         self.window.withdraw()
         SnakeAndApple(speed=self.speed, size=self.size, color=self.color, poison=self.poison).mainloop()
 
-    def moveSettingPage(self):
+    def move_setting_page(self):
         self.window.withdraw()
         SettingPage(self)
 

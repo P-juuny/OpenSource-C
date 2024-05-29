@@ -12,27 +12,27 @@ class SettingPage:
         self.parent = parent  # Parent is StartPage.py
         self.window = Tk()
         self.window.title("Snake-and-Apple")
-        self.setBackground()
-        self.setTitle()
+        self.initialize_board()
+        self.initialize_title()
         self.speed = 150  # Default Snake Speed
         self.color = Color.BLUE_COLOR  # Default Snake Color
         self.poison = False  # Default poison value
         self.size = Util.SIZE_BOARD  # Default Board Size
-        self.speedVariable = IntVar(value=150)
-        self.colorVariable = StringVar(value=Color.BLUE_COLOR)
-        self.poisonVariable = BooleanVar(value=False)
-        self.sizeVariable = IntVar(value=Util.SIZE_BOARD)
-        self.setSpeedSetting()
-        self.setSnakeColorSetting()
-        self.setBoardSizeSetting()
-        self.setPoisonSetting()
-        self.setApplyButton()
+        self.variable_speed = IntVar(value=150)
+        self.variable_color = StringVar(value=Color.BLUE_COLOR)
+        self.variable_poison = BooleanVar(value=False)
+        self.variable_size = IntVar(value=Util.SIZE_BOARD)
+        self.display_speed()
+        self.display_color()
+        self.display_size()
+        self.display_poison()
+        self.display_apply()
 
-    def setBackground(self):
+    def initialize_board(self):
         self.canvas = Canvas(self.window, width=Util.SIZE_BOARD, height=Util.SIZE_BOARD, bg="White")
         self.canvas.pack()
 
-    def setTitle(self):
+    def initialize_title(self):
         self.canvas.create_text(
             Util.SIZE_BOARD / 2,
             50,
@@ -41,7 +41,7 @@ class SettingPage:
             text="게임 설정",
         )
 
-    def setSpeedSetting(self):
+    def display_speed(self):
         self.canvas.create_text(
             45,
             100,
@@ -49,9 +49,9 @@ class SettingPage:
             fill="Black",
             text="난이도"
         )
-        self.setSpeedRadioButton()
+        self.display_speed_buttons()
 
-    def setSnakeColorSetting(self):
+    def display_color(self):
         self.canvas.create_text(
             45,
             150,
@@ -59,9 +59,9 @@ class SettingPage:
             fill="Black",
             text="뱀 색상"
         )
-        self.setSnakeColorRadioButton()
+        self.display_color_buttons()
 
-    def setPoisonSetting(self):
+    def display_poison(self):
         self.canvas.create_text(
             45,
             200,
@@ -69,9 +69,9 @@ class SettingPage:
             fill="Black",
             text="독사과"
         )
-        self.setPoisonSettingRadioButton()
+        self.display_poison_buttons()
 
-    def setBoardSizeSetting(self):
+    def display_size(self):
         self.canvas.create_text(
             60,
             250,
@@ -79,97 +79,97 @@ class SettingPage:
             fill="Black",
             text="게임판 크기"
         )
-        self.setBoardSizeSettingRadioButton()
+        self.display_size_buttons()
 
-    def setSpeedRadioButton(self):
-        self.createSpeedRadioButton(x=140, y=100, text="매우 쉬움", speed=270, color=Color.LIGHT_GREEN_1)
-        self.createSpeedRadioButton(x=220, y=100, text="쉬움", speed=210, color=Color.HARD_GREEN_1)
-        self.createSpeedRadioButton(x=290, y=100, text="보통", speed=150, color=Color.MIDDLE_ORANGE_1)
-        self.createSpeedRadioButton(x=360, y=100, text="어려움", speed=90, color=Color.MIDDLE_RED_1)
-        self.createSpeedRadioButton(x=460, y=100, text="매우 어려움", speed=30, color=Color.HARD_RED_1)
+    def display_speed_buttons(self):
+        self.create_speed_button(x=140, y=100, text="매우 쉬움", speed=270, color=Color.LIGHT_GREEN_1)
+        self.create_speed_button(x=220, y=100, text="쉬움", speed=210, color=Color.HARD_GREEN_1)
+        self.create_speed_button(x=290, y=100, text="보통", speed=150, color=Color.MIDDLE_ORANGE_1)
+        self.create_speed_button(x=360, y=100, text="어려움", speed=90, color=Color.MIDDLE_RED_1)
+        self.create_speed_button(x=460, y=100, text="매우 어려움", speed=30, color=Color.HARD_RED_1)
 
-    def setSnakeColorRadioButton(self):
-        self.createSnakeColorRadioButton(x=140, y=150, text="연두", color=Color.LIGHT_GREEN_1)
-        self.createSnakeColorRadioButton(x=220, y=150, text="파랑", color=Color.BLUE_COLOR)
-        self.createSnakeColorRadioButton(x=290, y=150, text="빨강", color=Color.RED_COLOR)
-        self.createSnakeColorRadioButton(x=360, y=150, text="주황", color=Color.MIDDLE_ORANGE_1)
-        self.createSnakeColorRadioButton(x=460, y=150, text="노랑", color=Color.YELLOW_COLOR)
+    def display_color_buttons(self):
+        self.create_color_button(x=140, y=150, text="연두", color=Color.LIGHT_GREEN_1)
+        self.create_color_button(x=220, y=150, text="파랑", color=Color.BLUE_COLOR)
+        self.create_color_button(x=290, y=150, text="빨강", color=Color.RED_COLOR)
+        self.create_color_button(x=360, y=150, text="주황", color=Color.MIDDLE_ORANGE_1)
+        self.create_color_button(x=460, y=150, text="노랑", color=Color.YELLOW_COLOR)
 
-    def setPoisonSettingRadioButton(self):
-        self.createPoisonRadioButton(x=140, y=200, text="포함", value=True, color=Color.PURPLE_COLOR)
-        self.createPoisonRadioButton(x=220, y=200, text="미포함", value=False, color=Color.GREEN_COLOR)
+    def display_poison_buttons(self):
+        self.create_poison_button(x=140, y=200, text="포함", value=True, color=Color.PURPLE_COLOR)
+        self.create_poison_button(x=220, y=200, text="미포함", value=False, color=Color.GREEN_COLOR)
 
-    def setBoardSizeSettingRadioButton(self):
-        self.createBoardSizeRadioButton(x=160, y=250, text="소(기본)", size=10)
-        self.createBoardSizeRadioButton(x=240, y=250, text="중", size=15)
-        self.createBoardSizeRadioButton(x=300, y=250, text="대", size=20)
+    def display_size_buttons(self):
+        self.create_size_button(x=160, y=250, text="소(기본)", size=10)
+        self.create_size_button(x=240, y=250, text="중", size=15)
+        self.create_size_button(x=300, y=250, text="대", size=20)
 
-    def createSpeedRadioButton(self, x, y, text, speed, color):
+    def create_speed_button(self, x, y, text, speed, color):
         button = Radiobutton(
             self.window,
             text=text,
-            variable=self.speedVariable,
+            variable=self.variable_speed,
             value=speed,
             font="cmr 18 bold",
             fg=color,
             bg="White",
         )
-        button.configure(command=lambda: self.setSpeed(speed))
+        button.configure(command=lambda: self.setting_speed(speed))
         self.canvas.create_window(x, y, window=button)
 
-    def createSnakeColorRadioButton(self, x, y, text, color):
+    def create_color_button(self, x, y, text, color):
         button = Radiobutton(
             self.window,
             text=text,
-            variable=self.colorVariable,
+            variable=self.variable_color,
             value=color,
             font="cmr 18 bold",
             fg=color,
             bg="White",
         )
-        button.configure(command=lambda: self.setColor(color))
+        button.configure(command=lambda: self.setting_color(color))
         self.canvas.create_window(x, y, window=button)
 
-    def createPoisonRadioButton(self, x, y, text, value, color):
+    def create_poison_button(self, x, y, text, value, color):
         button = Radiobutton(
             self.window,
             text=text,
-            variable=self.poisonVariable,
+            variable=self.variable_poison,
             value=value,
             font="cmr 18 bold",
             fg=color,
             bg="White"
         )
-        button.configure(command=lambda: self.setPoison(value))
+        button.configure(command=lambda: self.setting_poison(value))
         self.canvas.create_window(x, y, window=button)
 
-    def createBoardSizeRadioButton(self, x, y, text, size):
+    def create_size_button(self, x, y, text, size):
         button = Radiobutton(
             self.window,
             text=text,
-            variable=self.sizeVariable,
+            variable=self.variable_size,
             value=size,
             font="cmr 18 bold",
             fg="Black",
             bg="White"
         )
-        button.configure(command=lambda: self.setBoardSize(size))
+        button.configure(command=lambda: self.setting_size(size))
         self.canvas.create_window(x, y, window=button)
 
-    def setSpeed(self, speed):
+    def setting_speed(self, speed):
         self.speed = speed
 
-    def setColor(self, color):
+    def setting_color(self, color):
         self.color = color
 
-    def setPoison(self, value):
+    def setting_poison(self, value):
         self.poison = value
 
-    def setBoardSize(self, size):
+    def setting_size(self, size):
         self.size = size
 
-    def setApplyButton(self):
-        exitBtn = tkinter.Button(
+    def display_apply(self):
+        button = tkinter.Button(
             self.window,
             text="완료 ✅",
             width=10,
@@ -179,12 +179,12 @@ class SettingPage:
             font="cmr 16 bold",
             command=self.applySettings
         )
-        self.canvas.create_window(500, 550, window=exitBtn)
+        self.canvas.create_window(500, 550, window=button)
 
     def applySettings(self):
-        self.parent.setColor(self.color)
-        self.parent.setPoison(self.poison)
-        self.parent.setSpeed(self.speed)
-        self.parent.setBoardSize(self.size)
+        self.parent.setting_color(self.color)
+        self.parent.setting_poison(self.poison)
+        self.parent.setting_speed(self.speed)
+        self.parent.setting_size(self.size)
         self.parent.window.deiconify()
         self.window.destroy()
