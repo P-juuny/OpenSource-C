@@ -21,3 +21,5 @@ BLUE_COLOR_LIGHT = '#67B0CF'
 # Purple Color
 PURPLE_COLOR = "#9621BE"
 
+# Yellow Color
+YELLOW_COLOR="#FFD400"
