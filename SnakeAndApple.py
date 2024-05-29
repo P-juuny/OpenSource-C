@@ -16,12 +16,13 @@ class SnakeAndApple:
     # ------------------------------------------------------------------
     # Initialization Functions:
     # ------------------------------------------------------------------
-    def __init__(self, speed, size, poison):
+    def __init__(self, speed, size, color, poison):
         self.window = Tk()
         self.window.title("Snake-and-Apple")
         self.canvas = Canvas(self.window, width=Util.SIZE_BOARD, height=Util.SIZE_BOARD)
         self.canvas.pack()
         self.speed = speed
+        self.color = color
         self.poison_apple_enabled = poison
         self.poison_apple = None
         self.size = size
@@ -166,7 +167,7 @@ class SnakeAndApple:
                 y2 = y1 + int(Util.SIZE_BOARD / self.size)
                 self.snake_objects.append(
                     self.canvas.create_rectangle(
-                        x1, y1, x2, y2, fill=Color.BLUE_COLOR, outline=Color.BLUE_COLOR,
+                        x1, y1, x2, y2, fill=self.color, outline=Color.PURPLE_COLOR
                     )
                 )
         else:
@@ -178,7 +179,7 @@ class SnakeAndApple:
             y2 = y1 + int(Util.SIZE_BOARD / self.size)
             self.snake_objects.append(
                 self.canvas.create_rectangle(
-                    x1, y1, x2, y2, fill=Color.BLUE_COLOR, outline=Color.RED_COLOR,
+                    x1, y1, x2, y2, fill=self.color, outline=Color.PURPLE_COLOR
                 )
             )
 
@@ -192,7 +193,7 @@ class SnakeAndApple:
                 y2 = y1 + int(Util.SIZE_BOARD / self.size)
                 self.snake_objects.appendleft(
                     self.canvas.create_rectangle(
-                        x1, y1, x2, y2, fill=Color.BLUE_COLOR, outline=Color.RED_COLOR
+                        x1, y1, x2, y2, fill=self.color, outline=Color.PURPLE_COLOR
                     ),
                 )
 
