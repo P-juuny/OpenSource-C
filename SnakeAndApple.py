@@ -17,7 +17,7 @@ class SnakeAndApple:
     # Initialization Functions:
     # ------------------------------------------------------------------
     def __init__(self, parent, speed, size, color, poison):
-        self.window = Tk()
+        self.window = Toplevel()
         self.window.title("Snake-and-Apple")
         self.canvas = Canvas(self.window, width=Util.SIZE_BOARD, height=Util.SIZE_BOARD)
         self.canvas.pack()
@@ -29,14 +29,23 @@ class SnakeAndApple:
         # Input from user in form of clicks and keyboard
         self.window.bind("<Key>", self.key_input)
         self.game_over_by_poison = False
+        self.apple_image = self.initialize_image("./images/apple.png")
+        self.poison_apple_image = self.initialize_image("./images/poison_apple.png")
         self.play_again()
         self.begin = False
         self.parent = parent
+        
+
+    def initialize_image(self, path):
+        image = Image.open(path).resize((int(Util.SIZE_BOARD / self.size), int(Util.SIZE_BOARD / self.size)))
+        image = ImageTk.PhotoImage(image)
+        return image
 
     def initialize_board(self):
         self.board = []
         self.apple_obj = []
         self.old_apple_cell = []
+        self.poison_apple_obj = []
         self.old_poison_apple_cell= []
 
         for i in range(self.size):
@@ -152,8 +161,11 @@ class SnakeAndApple:
         y1 = self.apple_cell[1] * int(Util.SIZE_BOARD / self.size)
         x2 = x1 + int(Util.SIZE_BOARD / self.size)
         y2 = y1 + int(Util.SIZE_BOARD / self.size)
-        self.apple_obj = self.canvas.create_rectangle(
-            x1, y1, x2, y2, fill=Color.RED_COLOR_LIGHT, outline=Color.BLUE_COLOR,
+        self.apple_obj = self.canvas.create_image(
+            x1 + int(Util.SIZE_BOARD / self.size) / 2,
+            y1 + int(Util.SIZE_BOARD / self.size) / 2,
+            anchor=CENTER,
+            image=self.apple_image
         )
     
     def place_poison_apple(self):
@@ -163,8 +175,11 @@ class SnakeAndApple:
         y1 = self.poison_apple_cell[1] * int(Util.SIZE_BOARD / self.size)
         x2 = x1 + int(Util.SIZE_BOARD / self.size)
         y2 = y1 + int(Util.SIZE_BOARD / self.size)
-        self.poison_apple_obj = self.canvas.create_rectangle(
-            x1, y1, x2, y2, fill=Color.PURPLE_COLOR, outline=Color.BLUE_COLOR,
+        self.poison_apple_obj = self.canvas.create_image(
+            x1 + int(Util.SIZE_BOARD / self.size) / 2,
+            y1 + int(Util.SIZE_BOARD / self.size) / 2,
+            anchor=CENTER,
+            image=self.poison_apple_image
         )
 
     def display_snake(self, mode=""):
