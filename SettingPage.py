@@ -17,7 +17,7 @@ class SettingPage:
         self.speed = 150  # Default Snake Speed
         self.color = Color.BLUE_COLOR  # Default Snake Color
         self.poison = False  # Default poison value
-        self.size = Util.SIZE_BOARD  # Default Board Size
+        self.size = 10  # Default Board Size
         self.variable_speed = IntVar(value=150)
         self.variable_color = StringVar(value=Color.BLUE_COLOR)
         self.variable_poison = BooleanVar(value=False)
@@ -177,11 +177,11 @@ class SettingPage:
             pady=5,
             borderwidth=0,
             font="cmr 16 bold",
-            command=self.applySettings
+            command=self.apply_setting
         )
         self.canvas.create_window(500, 550, window=button)
 
-    def applySettings(self):
+    def apply_setting(self):
         self.parent.setting_color(self.color)
         self.parent.setting_poison(self.poison)
         self.parent.setting_speed(self.speed)
