@@ -69,7 +69,7 @@ class StartPage:
 
     def startGame(self):
         self.window.withdraw()
-        SnakeAndApple(speed=self.speed, size=self.size).mainloop()
+        SnakeAndApple(parent=self, speed=self.speed, size=self.size).mainloop()
 
     def moveSettingPage(self):
         self.window.withdraw()
