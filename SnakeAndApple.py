@@ -17,15 +17,19 @@ class SnakeAndApple:
     # ------------------------------------------------------------------
     # Initialization Functions:
     # ------------------------------------------------------------------
-    def __init__(self, speed, size):
+    def __init__(self, parent, speed, size, color, poison):
         self.window = Tk()
         self.window.title("Snake-and-Apple")
         self.canvas = Canvas(self.window, width=Util.SIZE_BOARD, height=Util.SIZE_BOARD)
         self.canvas.pack()
         self.speed = speed
+        self.color = color
+        self.poison_apple_enabled = poison
+        self.poison_apple = None
         self.size = size
         # Input from user in form of clicks and keyboard
         self.window.bind("<Key>", self.key_input)
+        self.game_over_by_poison = False
         self.play_again()
         self.begin = False
         pygame.mixer.init()
@@ -33,11 +37,13 @@ class SnakeAndApple:
         pygame.mixer.music.play(-1)  # -1은 음악을 무한 반복 재생
         self.eat_sound = pygame.mixer.Sound('sounds/eatingapple.wav')
         self.gameover_sound = pygame.mixer.Sound('sounds/gameover.wav')
+        self.parent = parent
 
     def initialize_board(self):
         self.board = []
         self.apple_obj = []
         self.old_apple_cell = []
+        self.old_poison_apple_cell= []
 
         for i in range(self.size):
             for j in range(self.size):
@@ -72,8 +78,15 @@ class SnakeAndApple:
         self.initialize_board()
         self.initialize_snake()
         self.place_apple()
+        if self.poison_apple_enabled:
+            self.place_poison_apple()
         self.display_snake(mode="complete")
         self.begin_time = time.time()
+        self.game_over_by_poison = False
+
+    def move_startpage(self):
+        self.parent.window.deiconify()
+        self.window.destroy()
 
     def mainloop(self):
         while True:
@@ -92,9 +105,9 @@ class SnakeAndApple:
     # The modules required to draw required game based object on canvas
     # ------------------------------------------------------------------
     def display_gameover(self):
-        score = len(self.snake)
+        score = 0 if self.game_over_by_poison and len(self.snake) == 1 else len(self.snake)
         self.canvas.delete("all")
-        score_text = "Scores \n"
+        score_text = "점수 \n"
 
         # put gif image on canvas
         # pic's upper left corner (NW) on the canvas is at x=50 y=10
@@ -114,7 +127,7 @@ class SnakeAndApple:
             fill=Color.BLUE_COLOR,
             text=score_text,
         )
-        time_spent = str(np.round(time.time() - self.begin_time, 1)) + 'sec'
+        time_spent = '생존시간: ' + str(np.round(time.time() - self.begin_time, 1)) + '초'
         self.canvas.create_text(
             Util.SIZE_BOARD / 2,
             3 * Util.SIZE_BOARD / 4,
@@ -122,13 +135,21 @@ class SnakeAndApple:
             fill=Color.BLUE_COLOR,
             text=time_spent,
         )
-        score_text = "Push R(r) key to play again \n"
+        score_text = "다시 시작하기 (R)"
         self.canvas.create_text(
             Util.SIZE_BOARD / 2,
-            15 * Util.SIZE_BOARD / 16,
+            530,
             font="cmr 20 bold",
             fill="gray",
             text=score_text,
+        )
+        move_start_text = "처음으로 돌아가기 (E) \n"
+        self.canvas.create_text(
+            Util.SIZE_BOARD / 2,
+            580,
+            font="cmr 20 bold",
+            fill="gray",
+            text=move_start_text
         )
 
     def place_apple(self):
@@ -141,6 +162,17 @@ class SnakeAndApple:
         y2 = y1 + int(Util.SIZE_BOARD / self.size)
         self.apple_obj = self.canvas.create_rectangle(
             x1, y1, x2, y2, fill=Color.RED_COLOR_LIGHT, outline=Color.BLUE_COLOR,
+        )
+    
+    def place_poison_apple(self):
+        unoccupied_cels = set(self.board) - set(self.snake) - {self.apple_cell}
+        self.poison_apple_cell = random.choice(list(unoccupied_cels))
+        x1 = self.poison_apple_cell[0] * int(Util.SIZE_BOARD / self.size)
+        y1 = self.poison_apple_cell[1] * int(Util.SIZE_BOARD / self.size)
+        x2 = x1 + int(Util.SIZE_BOARD / self.size)
+        y2 = y1 + int(Util.SIZE_BOARD / self.size)
+        self.poison_apple_obj = self.canvas.create_rectangle(
+            x1, y1, x2, y2, fill=Color.PURPLE_COLOR, outline=Color.BLUE_COLOR,
         )
 
     def display_snake(self, mode=""):
@@ -156,7 +188,7 @@ class SnakeAndApple:
                 y2 = y1 + int(Util.SIZE_BOARD / self.size)
                 self.snake_objects.append(
                     self.canvas.create_rectangle(
-                        x1, y1, x2, y2, fill=Color.BLUE_COLOR, outline=Color.BLUE_COLOR,
+                        x1, y1, x2, y2, fill=self.color, outline=Color.PURPLE_COLOR
                     )
                 )
         else:
@@ -168,7 +200,7 @@ class SnakeAndApple:
             y2 = y1 + int(Util.SIZE_BOARD / self.size)
             self.snake_objects.append(
                 self.canvas.create_rectangle(
-                    x1, y1, x2, y2, fill=Color.BLUE_COLOR, outline=Color.RED_COLOR,
+                    x1, y1, x2, y2, fill=self.color, outline=Color.PURPLE_COLOR
                 )
             )
 
@@ -182,9 +214,13 @@ class SnakeAndApple:
                 y2 = y1 + int(Util.SIZE_BOARD / self.size)
                 self.snake_objects.appendleft(
                     self.canvas.create_rectangle(
-                        x1, y1, x2, y2, fill=Color.BLUE_COLOR, outline=Color.RED_COLOR
+                        x1, y1, x2, y2, fill=self.color, outline=Color.PURPLE_COLOR
                     ),
                 )
+
+            if self.snake[-1] == self.old_poison_apple_cell:
+                self.canvas.delete(self.snake_objects.popleft())
+                
             self.window.update()
 
     # ------------------------------------------------------------------
@@ -223,9 +259,20 @@ class SnakeAndApple:
             self.canvas.delete(self.apple_obj)
             self.place_apple()
             self.display_snake()
+        elif self.poison_apple_enabled and self.poison_apple_cell == head:
+            self.old_poison_apple_cell = self.poison_apple_cell
+            if len(self.snake) > 1:
+                self.snake.popleft()
+            else:
+                self.game_over_by_poison = True
+                self.crashed = True
+            self.canvas.delete(self.poison_apple_obj)
+            self.place_poison_apple()
+            self.display_snake()             
         else:
             self.snake_heading = key
             self.display_snake()
+
 
     def check_if_key_valid(self, key):
         valid_keys = ["Up", "Down", "Left", "Right"]
@@ -246,3 +293,5 @@ class SnakeAndApple:
             if event.keysym == "r" or event.keysym == "R":
                 self.play_again()
                 pygame.mixer.music.play(-1)  # 게임을 다시 시작할 때 배경 음악 재생
+            if event.keysym == "e" or event.keysym == "E":
+                self.move_startpage()
