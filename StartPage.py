@@ -83,6 +83,5 @@ class StartPage:
         self.window.withdraw()
         SettingPage(self)
 
-
 game_instance = StartPage()
 game_instance.window.mainloop()
