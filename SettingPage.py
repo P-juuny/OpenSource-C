@@ -9,15 +9,15 @@ from tkinter import *
 class SettingPage:
     def __init__(self, parent):
         self.canvas = None
-        self.parent = parent  # Parent is StartPage.py
+        self.parent = parent  # parent = 시작페이지로 설정
         self.window = Tk()
         self.window.title("Snake-and-Apple")
         self.initialize_board()
         self.initialize_title()
-        self.speed = 150  # Default Snake Speed
-        self.color = Color.BLUE_COLOR  # Default Snake Color
-        self.poison = False  # Default poison value
-        self.size = 10  # Default Board Size
+        self.speed = 150  # 기본 뱀 속도
+        self.color = Color.BLUE_COLOR  # 기본 뱀 색상
+        self.poison = False  # 기본 독사과 모드
+        self.size = 10  # 기본 게임판 크기
         self.variable_speed = IntVar(value=150)
         self.variable_color = StringVar(value=Color.BLUE_COLOR)
         self.variable_poison = BooleanVar(value=False)
@@ -27,6 +27,10 @@ class SettingPage:
         self.display_size()
         self.display_poison()
         self.display_apply()
+
+    # --------------------------------
+    # SettingPage UI 관련 함수
+    # --------------------------------
 
     def initialize_board(self):
         self.canvas = Canvas(self.window, width=Util.SIZE_BOARD, height=Util.SIZE_BOARD, bg="White")
@@ -80,6 +84,10 @@ class SettingPage:
             text="게임판 크기"
         )
         self.display_size_buttons()
+
+    # --------------------------------
+    # 설정 값들의 Button UI 관련 함수
+    # --------------------------------
 
     def display_speed_buttons(self):
         self.create_speed_button(x=140, y=100, text="매우 쉬움", speed=270, color=Color.LIGHT_GREEN_1)
@@ -155,6 +163,10 @@ class SettingPage:
         )
         button.configure(command=lambda: self.setting_size(size))
         self.canvas.create_window(x, y, window=button)
+
+    # --------------------------------
+    # 설정 값 적용 관련 함수
+    # --------------------------------
 
     def setting_speed(self, speed):
         self.speed = speed

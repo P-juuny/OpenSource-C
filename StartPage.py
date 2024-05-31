@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import tkinter
+from PIL import ImageTk, Image
 import Color
 import Util
 from tkinter import *
@@ -24,6 +25,10 @@ class StartPage:
         self.window.bind("<space>", lambda event: self.start_game())
         self.display_setting()
 
+    # --------------------------------
+    # StartPage UI 관련 함수
+    # --------------------------------
+
     def initialize_board(self):
         self.canvas = Canvas(self.window, width=Util.SIZE_BOARD, height=Util.SIZE_BOARD, bg="White")
         self.canvas.pack()
@@ -34,7 +39,7 @@ class StartPage:
             3 * Util.SIZE_BOARD / 8,
             font="cmr 30 bold",
             fill=Color.GREEN_COLOR,
-            text="Welcome SnakeAndApple Game 😄",
+            text="SnakeAndApple에 오신걸 환영합니다 😄",
         )
 
     def display_start(self):
@@ -63,6 +68,10 @@ class StartPage:
         )
         button.pack(side="bottom", anchor="se", padx=5)
 
+    # --------------------------------
+    # 설정한 값 적용 관련 함
+    # --------------------------------
+
     def setting_speed(self, speed):
         self.speed = speed
 
@@ -82,6 +91,3 @@ class StartPage:
     def move_setting_page(self):
         self.window.withdraw()
         SettingPage(self)
-
-game_instance = StartPage()
-game_instance.window.mainloop()
