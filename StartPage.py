@@ -69,7 +69,7 @@ class StartPage:
         button.pack(side="bottom", anchor="se", padx=5)
 
     # --------------------------------
-    # 설정한 값 적용 관련 함
+    # 설정한 값 적용 관련 함수
     # --------------------------------
 
     def setting_speed(self, speed):
