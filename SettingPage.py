@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import tkinter
 import Color
 import Util
@@ -14,10 +12,10 @@ class SettingPage:
         self.window.title("Snake-and-Apple")
         self.initialize_board()
         self.initialize_title()
-        self.speed = 150  # Default Snake Speed
-        self.color = Color.BLUE_COLOR  # Default Snake Color
-        self.poison = False  # Default poison value
-        self.size = 10  # Default Board Size
+        self.speed = 150  # 기본 뱀 속도
+        self.color = Color.BLUE_COLOR  # 기본 뱀 색상
+        self.poison = False  # 기본 독사과 모드
+        self.size = 10  # 기본 게임판 크기
         self.variable_speed = IntVar(value=150)
         self.variable_color = StringVar(value=Color.BLUE_COLOR)
         self.variable_poison = BooleanVar(value=False)
