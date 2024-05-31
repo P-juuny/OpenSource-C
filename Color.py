@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 # Orange Color
 LIGHT_GREEN_1 = "#71EA47"
 HARD_GREEN_1 = "#2A9B02"

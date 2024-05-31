@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 # Apple Image
 APPLE_IMAGE_PATH = "./images/apple.png"
 
