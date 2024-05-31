@@ -105,7 +105,7 @@ class SnakeAndApple:
     def mainloop(self):
         while True:
             self.window.update()
-            if self.begin:
+            if self.begin: # self.begin이 True일 경우
                 if not self.crashed:
                     self.window.after(self.speed, self.update_snake(self.last_key))
                 else:
