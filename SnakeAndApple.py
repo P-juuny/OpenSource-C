@@ -26,7 +26,6 @@ class SnakeAndApple:
         self.speed = speed
         self.color = color
         self.poison_apple_enabled = poison
-        self.poison_apple = None
         self.size = size
         # Input from user in form of clicks and keyboard
         self.window.bind("<Key>", self.key_input)
