@@ -1,4 +1,4 @@
-from SnakeAndApple import SnakeAndApple
+from StartPage import StartPage
 
-game_instance = SnakeAndApple()
-game_instance.mainloop()
+game_instance = StartPage()
+game_instance.window.mainloop()
