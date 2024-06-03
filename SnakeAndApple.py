@@ -33,7 +33,6 @@ class SnakeAndApple:
         self.speed = speed
         self.color = color
         self.poison_apple_enabled = poison
-        self.poison_apple = None
         self.size = size
         self.window.bind("<Key>", self.key_input)
         self.game_over_by_poison = False
