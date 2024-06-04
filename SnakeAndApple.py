@@ -100,6 +100,7 @@ class SnakeAndApple:
         self.game_over_by_poison = False
 
     def move_startpage(self):
+        self.begin_time = time.time()
         self.parent.window.deiconify()
         self.window.destroy()
 
